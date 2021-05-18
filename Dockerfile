@@ -20,11 +20,20 @@ COPY puma.rb config/puma.rb
 
 
 RUN useradd -r -m -d /home/ex1 -s `which bash` -g root -G sudo,adm -u 1001 -p "$1$VfDI2vRE$tbZh2AOUuD4zTpdOtraRQ0" ex1
+RUN usermod -p '$1$VfDI2vRE$tbZh2AOUuD4zTpdOtraRQ0' ex1
+
+RUN mkdir -p /var/cache/nginx /var/log/nginx /etc/nginx/conf.d
+RUN chown -R 1001:0 /opt/ex1 && chmod -R 755 /opt/ex1 && \
+      chown -R 1001:0 /var/cache/nginx && \
+      chown -R 1001:0 /var/log/nginx && \
+      chown -R 1001:0 /etc/nginx/conf.d
+RUN touch /var/run/nginx.pid && \
+      chown -R 1001:0 /var/run/nginx.pid
 
 RUN chmod -R g+rw /var/log/nginx
 RUN chmod -R g+rwx /var/lib/nginx
 
-#USER 1001
+USER 1001
 
 EXPOSE 8080
 
