@@ -18,6 +18,14 @@ COPY entrypoint.sh /usr/local/bin/
 RUN chmod a+x /usr/local/bin/entrypoint.sh
 COPY puma.rb config/puma.rb
 
+
+RUN useradd -r -m -d /home/ex1 -s `which bash` -g root -G sudo,adm -u 1001 -p "$1$VfDI2vRE$tbZh2AOUuD4zTpdOtraRQ0" ex1
+
+RUN chmod -R g+rw /var/log/nginx
+RUN chmod -R g+rwx /var/lib/nginx
+
+#USER 1001
+
 EXPOSE 8080
 
 ENTRYPOINT [ "entrypoint.sh" ]
